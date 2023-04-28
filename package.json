@@ -12,7 +12,8 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.17",
-    "@rainbow-me/rainbowkit": "^0.8.1",
+    "@web3modal/ethereum": "^2.3.7",
+    "@web3modal/react": "^2.3.7",
     "ethers": "^5",
     "lucide-react": "^0.187.0",
     "react": "^18.2.0",
@@ -20,7 +21,7 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.8.0",
     "truncate-eth-address": "^1.0.2",
-    "wagmi": "0.11.0"
+    "wagmi": "^0.12.12"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
