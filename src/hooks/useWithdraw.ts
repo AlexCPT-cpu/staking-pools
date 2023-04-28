@@ -2,17 +2,17 @@ import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import WbnbPool from "../config/json/WbnbPool.json";
 import { ethers } from "ethers";
 
-const useStake = (poolAdd: string, amount: string) => {
+const useWithdraw = (poolAdd: string, amount: string) => {
   const { config } = usePrepareContractWrite({
     //@ts-expect-error contract starts eith 0x${string}
     address: poolAdd,
     abi: WbnbPool,
-    functionName: "stake",
+    functionName: "withdraw",
     args: [ethers.utils.parseUnits(amount.toString(), "ether")],
   });
-  const { data: stakeData, write: callStake } = useContractWrite(config);
+  const { data: withData, write: callWith } = useContractWrite(config);
 
-  return { stakeData, callStake };
+  return { withData, callWith };
 };
 
-export default useStake;
+export default useWithdraw;

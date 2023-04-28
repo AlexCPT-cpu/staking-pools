@@ -47,7 +47,7 @@ const ConnectBtn = () => {
 
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <button className="bg-red-500 text-white px-4 py-2 rounded-lg text-center whitespace-nowrap" onClick={openChainModal} type="button">
                     Wrong network
                   </button>
                 );

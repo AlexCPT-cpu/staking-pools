@@ -5,12 +5,13 @@ import "./index.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
+import { bsc } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import { Toaster } from "react-hot-toast";
 
 const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum],
+  [bsc],
   [
     alchemyProvider({ apiKey: "aSDT-aK1-0jAEVEOfhP4WMB_zCbhbsOX" }),
     publicProvider(),
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <App />
+        <Toaster />
       </RainbowKitProvider>
     </WagmiConfig>
   </React.StrictMode>
