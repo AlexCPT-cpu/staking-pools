@@ -1,9 +1,9 @@
-import { useAccount,  } from "wagmi";
+// import { useAccount, useContractRead } from "wagmi";
 import WbnbPool from "../config/json/WbnbPool.json";
 import { ethers } from "ethers";
 
-const useStakeDetails = async (poolAdd: string) => {
-  const { address } = useAccount();
+const Detail = async (poolAdd: string, address: string) => {
+//   const { address } = useAccount();
 
   // const { data: stakeInfo } = useContractRead({
   //   //@ts-expect-error contract starts eith 0x${string}
@@ -19,4 +19,4 @@ const useStakeDetails = async (poolAdd: string) => {
   return { stakeInfo };
 };
 
-export default useStakeDetails;
+export default Detail;

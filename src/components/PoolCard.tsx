@@ -2,18 +2,18 @@ import Modal from "./Modal";
 import ConnectBtn from "./ConnectBtn";
 import { useAccount, useNetwork, useWaitForTransaction } from "wagmi";
 import Button from "./Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PoolType } from "..";
 import useApprove from "../hooks/useApprove";
 import toast from "react-hot-toast";
 import useStake from "../hooks/useStake";
 import useWithdraw from "../hooks/useWithdraw";
 import useClaim from "../hooks/useClaim";
-import useStakeDetails from "../hooks/useStakeDetails";
 import useTotal from "../hooks/useTotal";
 import BUSDP from "../assets/BUSD.png";
 import WBNBP from "../assets/WBNB.png";
 import USDTP from "../assets/USDT.png";
+import Detail from "../hooks/Detail";
 
 const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
   const UseLogo = ({ name }: { name: string }) => {
@@ -30,11 +30,26 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
   const { address } = useAccount();
   const { chain } = useNetwork();
 
-  const { stakeInfo }: any = useStakeDetails(poolAddress);
+  const [rewards, setRewards] = useState(0);
+  const [totalS, setTotalS] = useState(0);
+
+  useEffect(() => {
+    const Run = async () => {
+      /**  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore */
+      const { stakeInfo }: any = await Detail(poolAddress, address);
+      setRewards(parseInt(stakeInfo?._rewards?._hex));
+      setTotalS(parseInt(stakeInfo?._tokensStaked?._hex));
+    };
+    const X = async () => {
+      await Run();
+    };
+    X();
+  }, [address, poolAddress]);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [apprLoad, setApprLoad] = useState<boolean>(false);
-  const [amount, setAmount] = useState<string>("1");
+  const [amount, setAmount] = useState<string>("0");
   const [withdraw, setWithdraw] = useState<boolean>(false);
   const [claim, setClaim] = useState<boolean>(false);
 
@@ -48,12 +63,6 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
   const { withData, callWith } = useWithdraw(poolAddress, amount);
   const { claimData, callClaim } = useClaim(poolAddress);
   const { total } = useTotal(poolAddress, tokenAddress);
-
-  const tokensStaked = parseInt(stakeInfo[0]?._hex);
-  const rewards = parseInt(stakeInfo[1]?._hex);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const totalStk = parseInt(total?._hex);
 
   const Approve = async () => {
     if (!callApprove) return;
@@ -96,6 +105,7 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
       if (data) {
         setClaim(false);
         toast.success("Tokens Claimed successfully");
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         console.log(error);
         setClaim(false);
@@ -112,6 +122,7 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
       if (data) {
         setLoading(false);
         toast.success("Tokens Staked successfully");
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         console.log(error);
         setLoading(false);
@@ -128,6 +139,7 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
       if (data) {
         setWithdraw(false);
         toast.success("Tokens Withdrawn successfully");
+        setTimeout(() => window.location.reload(), 2000);
       } else {
         console.log(error);
         setWithdraw(false);
@@ -186,7 +198,9 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
           <div className="flex flex-row justify-between w-full mb-3 items-center">
             <div className="flex flex-col">
               <div className="text-black font-semibold">
-                {totalStk?.toLocaleString()}
+                {/**  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore */}
+                {parseInt(total?._hex)?.toLocaleString()}
               </div>
               <div className="text-xs">Total Staked ({name})</div>
             </div>
@@ -204,16 +218,12 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
 
           <div className="flex flex-row justify-between w-full mb-5 items-center">
             <div className="flex flex-col">
-              <div className="text-black font-semibold">
-                {tokensStaked?.toLocaleString()}
-              </div>
+              <div className="text-black font-semibold">{totalS}</div>
               <div className="text-xs">Tokens Staked ({name})</div>
             </div>
             <div className="flex flex-row">
               <div className="flex flex-col">
-                <div className="text-black font-semibold">
-                  {rewards?.toLocaleString()}
-                </div>
+                <div className="text-black font-semibold">{rewards}</div>
                 <div className="text-xs">Rewards Earned</div>
               </div>
             </div>
@@ -231,7 +241,7 @@ const PoolCard = ({ name, poolAddress, tokenAddress }: PoolType) => {
             {address ? (
               <div className="flex flex-row space-x-2">
                 {/**  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore */}
+                   //@ts-ignore */}
                 {Number(parseInt(allowance?._hex)) > Number(amount) ? (
                   <Button onClick={Stake} loading={loading}>
                     Stake
