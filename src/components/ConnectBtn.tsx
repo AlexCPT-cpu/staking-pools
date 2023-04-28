@@ -36,7 +36,7 @@ const ConnectBtn = () => {
               if (!connected) {
                 return (
                   <button
-                    className="bg-[#005AFF] text-white rounded-lg px-4 py-2"
+                    className="bg-[#005AFF] text-white rounded-lg px-4 py-2 whitespace-nowrap"
                     onClick={openConnectModal}
                     type="button"
                   >
