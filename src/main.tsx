@@ -9,10 +9,10 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { arbitrum, mainnet, polygon } from "wagmi/chains";
+import { bsc } from "wagmi/chains";
 import { Toaster } from "react-hot-toast";
 
-const chains = [arbitrum, mainnet, polygon];
+const chains = [bsc];
 const projectId = "523d3d83a0bcca9d8ba03a932a712917";
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
